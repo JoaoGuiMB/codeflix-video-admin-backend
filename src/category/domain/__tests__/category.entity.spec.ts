@@ -1,7 +1,12 @@
-import { Category } from "../category/domain/category.entity";
-import { Uuid } from "../shared/domain/value-objects/uuid.vo";
+import { Uuid } from "../../../shared/domain/value-objects/uuid.vo";
+import { Category } from "../category.entity";
 
 describe("Category Unit Tests", () => {
+  let validateSpy: any;
+  beforeEach(() => {
+    validateSpy = jest.spyOn(Category, "validate");
+  });
+
   it("should create a new category through the factory", () => {
     const category = Category.create({
       name: "Category 1",
@@ -14,6 +19,7 @@ describe("Category Unit Tests", () => {
     expect(category.description).toBe("Category 1 description");
     expect(category.is_active).toBe(true);
     expect(category.created_at).toBeInstanceOf(Date);
+    expect(validateSpy).toHaveBeenCalled();
   });
 
   it("should create a new category with constructor", () => {
@@ -41,6 +47,7 @@ describe("Category Unit Tests", () => {
     category.changeName("Category 2");
 
     expect(category.name).toBe("Category 2");
+    expect(validateSpy).toHaveBeenCalledTimes(2);
   });
 
   it("should change the description of the category", () => {
