@@ -1,4 +1,5 @@
 import { Category } from "../category/domain/category.entity";
+import { Uuid } from "../shared/domain/value-objects/uuid.vo";
 
 describe("Category Unit Tests", () => {
   it("should create a new category through the factory", () => {
@@ -8,6 +9,7 @@ describe("Category Unit Tests", () => {
       is_active: true,
     });
 
+    expect(category.category_id).toBeInstanceOf(Uuid);
     expect(category.name).toBe("Category 1");
     expect(category.description).toBe("Category 1 description");
     expect(category.is_active).toBe(true);
@@ -22,7 +24,7 @@ describe("Category Unit Tests", () => {
       created_at: new Date(),
     });
 
-    expect(category.category_id).toBeUndefined();
+    expect(category.category_id).toBeInstanceOf(Uuid);
     expect(category.name).toBe("Category 1");
     expect(category.description).toBe("Category 1 description");
     expect(category.is_active).toBe(true);
@@ -75,5 +77,18 @@ describe("Category Unit Tests", () => {
     category.deactivate();
 
     expect(category.is_active).toBe(false);
+  });
+
+  it("should create category with id", () => {
+    const id = new Uuid();
+    const category = new Category({
+      category_id: id,
+      name: "Category 1",
+      description: "Category 1 description",
+      is_active: true,
+      created_at: new Date(),
+    });
+
+    expect(category.category_id).toBe(id);
   });
 });
