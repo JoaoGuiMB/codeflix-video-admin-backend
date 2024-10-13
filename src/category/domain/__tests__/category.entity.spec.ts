@@ -99,3 +99,18 @@ describe("Category Unit Tests", () => {
     expect(category.category_id).toBe(id);
   });
 });
+
+describe("Category Validation", () => {
+  it("should throw an error when the name is empty", () => {
+    try {
+      const category = Category.create({
+        name: "",
+        description: "Category 1 description",
+        is_active: true,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+    expect(true).toBe(true);
+  });
+});

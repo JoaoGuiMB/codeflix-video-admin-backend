@@ -1,4 +1,4 @@
-import { MaxLength } from "class-validator";
+import { IsNotEmpty, MaxLength } from "class-validator";
 import { ClassValidatorFields } from "../../shared/domain/validators/class-validator-fields";
 import { Notification } from "../../shared/domain/validators/notification";
 import { Category } from "./category.entity";
@@ -6,6 +6,7 @@ import { Category } from "./category.entity";
 //criar um testes que verifique os decorators
 export class CategoryRules {
   @MaxLength(255, { groups: ["name"] })
+  @IsNotEmpty()
   name: string;
 
   constructor(entity: Category) {
