@@ -1,5 +1,5 @@
-import { Category } from "../../../domain/category.entity";
-import { CategoryInMemoryRepository } from "./category-in-memory.repository";
+import { Category } from "../../../../domain/category.entity";
+import { CategoryInMemoryRepository } from "././category-in-memory.repository";
 
 describe("CategoryInMemoryRepository", () => {
   let repository: CategoryInMemoryRepository;
@@ -49,7 +49,10 @@ describe("CategoryInMemoryRepository", () => {
   //   ];
 
   //   const itemsSorted = await repository["applySort"](items, null, null);
-  //   expect(itemsSorted).toStrictEqual([items[2], items[1], items[0]]);
+  //   const output = items.sort(
+  //     (a, b) => a.created_at.getTime() - b.created_at.getTime()
+  //   );
+  //   expect(itemsSorted).toEqual(output);
   // });
 
   it("should sort by name", async () => {
