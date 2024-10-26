@@ -4,7 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "DOTENV_CONFIG_PATH=.env.test  jest --setupFiles dotenv/config",
+    "drizzle:generate": "npx drizzle-kit generate",
+    "drizzle:migrate": "npx drizzle-kit migrate",
+    "drizzle:push": "npx drizzle-kit push",
+    "drizzle:studio": "npx drizzle-kit studio"
   },
   "keywords": [],
   "author": "",
@@ -13,17 +17,23 @@
     "@swc/cli": "^0.4.1-nightly.20240914",
     "@swc/core": "^1.7.35",
     "@swc/jest": "^0.2.36",
+    "@types/better-sqlite3": "^7.6.11",
     "@types/chance": "^1.1.6",
     "@types/jest": "^29.5.13",
     "@types/lodash": "^4.17.10",
     "@types/uuid": "^10.0.0",
+    "drizzle-kit": "^0.26.2",
     "jest": "^29.7.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.3"
   },
   "dependencies": {
+    "@libsql/client": "^0.14.0",
+    "better-sqlite3": "^11.5.0",
     "chance": "^1.1.12",
     "class-validator": "^0.14.1",
+    "dotenv": "^16.4.5",
+    "drizzle-orm": "^0.35.3",
     "lodash": "^4.17.21",
     "uuid": "^10.0.0"
   }
