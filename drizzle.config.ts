@@ -10,4 +10,4 @@ export default defineConfig({
   },
 });
 
-// TODO: delete all tables after tests
+// TODO: https://orm.drizzle.team/docs/drizzle-kit-generate you may need this in the future for tests

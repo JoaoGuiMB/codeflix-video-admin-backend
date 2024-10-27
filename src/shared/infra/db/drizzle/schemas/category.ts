@@ -4,10 +4,7 @@ import { AnySQLiteColumn } from "drizzle-orm/sqlite-core";
 import { v4 as uuidv4 } from "uuid";
 
 export const categorySchema = table("categories", {
-  category_id: t
-    .text()
-    .primaryKey()
-    .$defaultFn(() => uuidv4()),
+  category_id: t.text().primaryKey().notNull(),
   name: t.text({ length: 256 }).notNull(),
   description: t.text({ length: 256 }).notNull(),
   is_active: t.integer({ mode: "boolean" }).notNull(),
