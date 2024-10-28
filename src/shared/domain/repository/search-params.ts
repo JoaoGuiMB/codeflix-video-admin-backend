@@ -2,22 +2,24 @@ import { ValueObject } from "../value-object";
 
 export type SortDirection = "asc" | "desc";
 
-export type SearchParamsConstructorProps<Filter = string> = {
+export type SearchParamsConstructorProps<SortFields, Filter> = {
   page?: number;
   per_page?: number;
-  sort?: string | null;
+  sort?: SortFields | null;
   sort_dir?: SortDirection | null;
   filter?: Filter | null;
 };
 
-export class SearchParams<Filter = string> extends ValueObject {
+export class SearchParams<SortFields, Filter> extends ValueObject {
   protected _page: number;
   protected _per_page: number = 15;
-  protected _sort: string | null;
+  protected _sort: SortFields | null;
   protected _sort_dir: SortDirection | null;
   protected _filter: Filter | null;
 
-  constructor(props: SearchParamsConstructorProps<Filter> = {}) {
+  constructor(
+    props: SearchParamsConstructorProps<SortFields | null, Filter> = {}
+  ) {
     super();
     this.page = props.page!;
     this.per_page = props.per_page!;
@@ -58,13 +60,12 @@ export class SearchParams<Filter = string> extends ValueObject {
     this._per_page = _per_page;
   }
 
-  get sort(): string | null {
+  get sort(): SortFields | null {
     return this._sort;
   }
 
-  private set sort(value: string | null) {
-    this._sort =
-      value === null || value === undefined || value === "" ? null : `${value}`;
+  private set sort(value: SortFields | null) {
+    this._sort = value;
   }
 
   get sort_dir(): SortDirection | null {

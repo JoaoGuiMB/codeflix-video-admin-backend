@@ -1,3 +1,4 @@
+import { CategorySortFields } from "../../../../category/domain/category.repository";
 import { Entity } from "../../../domain/entity";
 import { NotFoundError } from "../../../domain/errors/not-found.error";
 import {
@@ -70,7 +71,9 @@ export abstract class InMemorySearchableRepository<
   implements ISearchableRepository<E, EntityId, Filter>
 {
   sortableFields: string[] = [];
-  async search(props: SearchParams<Filter>): Promise<SearchResult<Entity>> {
+  async search(
+    props: SearchParams<CategorySortFields, Filter>
+  ): Promise<SearchResult<Entity>> {
     const filteredItems = await this.applyFilter(this.items, props.filter);
 
     const itemsSorted = this.applySort(
@@ -99,8 +102,8 @@ export abstract class InMemorySearchableRepository<
 
   protected applyPaginate(
     items: E[],
-    page: SearchParams["page"],
-    per_page: SearchParams["per_page"]
+    page: SearchParams<CategorySortFields, Filter>["page"],
+    per_page: SearchParams<CategorySortFields, Filter>["per_page"]
   ) {
     const start = (page - 1) * per_page;
     const end = start + per_page;

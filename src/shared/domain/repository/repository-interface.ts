@@ -9,15 +9,16 @@ export interface IRepository<E extends Entity, EntityId extends ValueObject> {
   update(entity: E): Promise<void>;
   delete(entity: EntityId): Promise<void>;
 
-  findById(entity_id: ValueObject): Promise<E | null>;
+  findById(entity_id: EntityId): Promise<E | null>;
   findAll(): Promise<E[]>;
+  getEntity(): new (...args: any[]) => E;
 }
 
 export interface ISearchableRepository<
   E extends Entity,
   EntityId extends ValueObject,
   Filter = string,
-  SearchInput = SearchParams<Filter>,
+  SearchInput = SearchParams<string, Filter>,
   SeachtOutput = SearchResult
 > extends IRepository<E, EntityId> {
   sortableFields: string[];
