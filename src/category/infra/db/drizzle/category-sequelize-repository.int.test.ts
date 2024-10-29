@@ -1,11 +1,8 @@
 import { sql } from "drizzle-orm";
-import { db } from "../../../../../shared/infra/db/drizzle/connection";
-import { Category } from "../../../category.entity";
+import { db } from "../../../../shared/infra/db/drizzle/connection";
+import { Category } from "../../../domain/category.entity";
 import { CategoryDrizzleRepository } from "./category-drizzle.repository";
-import {
-  CategorySearchParams,
-  CategorySearchResult,
-} from "../../../category.repository";
+import { CategorySearchParams } from "../../../domain/category.repository";
 
 describe("CategoryDrizzleRepository Integration Tests", () => {
   let repository: CategoryDrizzleRepository;

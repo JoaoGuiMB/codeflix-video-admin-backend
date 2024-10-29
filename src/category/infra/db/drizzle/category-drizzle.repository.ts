@@ -1,18 +1,16 @@
 import { asc, desc, eq, ilike, like } from "drizzle-orm";
-import { Entity } from "../../../../../shared/domain/entity";
-import { SearchParams } from "../../../../../shared/domain/repository/search-params";
-import { SearchResult } from "../../../../../shared/domain/repository/search-result";
-import { ValueObject } from "../../../../../shared/domain/value-object";
-import { Uuid } from "../../../../../shared/domain/value-objects/uuid.vo";
-import { db } from "../../../../../shared/infra/db/drizzle/connection";
-import { categorySchema } from "../../../../../shared/infra/db/drizzle/schemas/category";
-import { Category } from "../../../category.entity";
+
+import { Category } from "../../../domain/category.entity";
+import { categorySchema } from "../../../../shared/infra/db/drizzle/schemas/category";
+import { db } from "../../../../shared/infra/db/drizzle/connection";
+import { Uuid } from "../../../../shared/domain/value-objects/uuid.vo";
+import { NotFoundError } from "../../../../shared/domain/errors/not-found.error";
 import {
   CategorySearchParams,
   CategorySearchResult,
   ICategoryRepository,
-} from "../../../category.repository";
-import { NotFoundError } from "../../../../../shared/domain/errors/not-found.error";
+} from "../../../domain/category.repository";
+import { SearchResult } from "../../../../shared/domain/repository/search-result";
 
 export class CategoryDrizzleRepository implements ICategoryRepository {
   sortableFields: string[] = ["name", "created_at"];
