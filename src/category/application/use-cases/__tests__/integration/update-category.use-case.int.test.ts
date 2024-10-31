@@ -1,9 +1,9 @@
 import { sql } from "drizzle-orm";
-import { NotFoundError } from "../../../../shared/domain/errors/not-found.error";
-import { Uuid } from "../../../../shared/domain/value-objects/uuid.vo";
-import { db } from "../../../../shared/infra/db/drizzle/connection";
-import { Category } from "../../../domain/category.entity";
-import { CategoryDrizzleRepository } from "../../../infra/db/drizzle/category-drizzle.repository";
+import { NotFoundError } from "../../../../../shared/domain/errors/not-found.error";
+import { Uuid } from "../../../../../shared/domain/value-objects/uuid.vo";
+import { db } from "../../../../../shared/infra/db/drizzle/connection";
+import { Category } from "../../../../domain/category.entity";
+import { CategoryDrizzleRepository } from "../../../../infra/db/drizzle/category-drizzle.repository";
 import { UpdateCategoryUseCase } from "../../update-category.use-case";
 
 describe("UpdateCategoryUseCase Integration Tests", () => {

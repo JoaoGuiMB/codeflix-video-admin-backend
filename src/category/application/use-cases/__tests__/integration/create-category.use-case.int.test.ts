@@ -1,7 +1,7 @@
 import { sql } from "drizzle-orm";
-import { Uuid } from "../../../../shared/domain/value-objects/uuid.vo";
-import { db } from "../../../../shared/infra/db/drizzle/connection";
-import { CategoryDrizzleRepository } from "../../../infra/db/drizzle/category-drizzle.repository";
+import { Uuid } from "../../../../../shared/domain/value-objects/uuid.vo";
+import { db } from "../../../../../shared/infra/db/drizzle/connection";
+import { CategoryDrizzleRepository } from "../../../../infra/db/drizzle/category-drizzle.repository";
 import { CreateCategoryUseCase } from "../../create-category.use-case";
 
 describe("CreateCategoryUseCase Integration Tests", () => {
