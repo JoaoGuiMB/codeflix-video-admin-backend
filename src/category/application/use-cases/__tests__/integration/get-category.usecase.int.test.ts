@@ -1,5 +1,7 @@
+import { sql } from "drizzle-orm";
 import { NotFoundError } from "../../../../../shared/domain/errors/not-found.error";
 import { Uuid } from "../../../../../shared/domain/value-objects/uuid.vo";
+import { db } from "../../../../../shared/infra/db/drizzle/connection";
 
 import { Category } from "../../../../domain/category.entity";
 import { CategoryDrizzleRepository } from "../../../../infra/db/drizzle/category-drizzle.repository";
@@ -13,6 +15,12 @@ describe("GetCategoryUseCase Integration Tests", () => {
   beforeEach(() => {
     repository = new CategoryDrizzleRepository();
     useCase = new GetCategoryUseCase(repository);
+  });
+
+  afterEach(() => {
+    const queries = ["DELETE FROM categories"];
+
+    queries.forEach((q) => db.run(sql.raw(q)));
   });
 
   it("should throws error when entity not found", async () => {
