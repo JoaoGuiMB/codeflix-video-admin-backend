@@ -91,7 +91,7 @@ export class CategoryDrizzleRepository implements ICategoryRepository {
 
   async delete(entity: Uuid): Promise<void> {
     const id = entity.id;
-    const foundCategory = this._get(id);
+    const foundCategory = await this._get(id);
     if (!foundCategory) {
       throw new NotFoundError(id, this.getEntity());
     }
