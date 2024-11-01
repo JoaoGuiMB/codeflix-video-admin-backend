@@ -8,7 +8,6 @@ import {
   CategoryFilter,
   CategorySearchParams,
   CategorySearchResult,
-  CategorySortFields,
   ICategoryRepository,
 } from "../../domain/category.repository";
 import { CategoryOutput, CategoryOutputMapper } from "./common/category-output";
@@ -36,7 +35,7 @@ export class ListCategoriesUseCase
 export type ListCategoriesInput = {
   page?: number;
   per_page?: number;
-  sort?: CategorySortFields | null;
+  sort?: string | null;
   sort_dir?: SortDirection | null;
   filter?: CategoryFilter | null;
 };

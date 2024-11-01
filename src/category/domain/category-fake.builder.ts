@@ -34,7 +34,7 @@ export class CategoryFakeBuilder<TBuild = any> {
     this.chance = Chance();
   }
 
-  withCategoryId(valueOrFactory: PropOrFactory<Uuid>) {
+  withUuid(valueOrFactory: PropOrFactory<Uuid>) {
     this._category_id = valueOrFactory;
     return this;
   }

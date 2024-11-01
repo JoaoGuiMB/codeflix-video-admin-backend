@@ -1,7 +1,7 @@
-import { isEqual } from "lodash";
+import isEqual from "lodash/isEqual";
 
-export class ValueObject {
-  public equals(vo?: this): boolean {
+export abstract class ValueObject {
+  public equals(vo: this): boolean {
     if (vo === null || vo === undefined) {
       return false;
     }
