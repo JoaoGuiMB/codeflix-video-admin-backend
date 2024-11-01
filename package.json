@@ -4,7 +4,8 @@
   "description": "Repetir para as outras entidades Cast member, Genre, Video",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV=test jest"
+    "test": "NODE_ENV=test jest --coverage",
+    "tsc:check": "tsc"
   },
   "keywords": [],
   "author": "",
