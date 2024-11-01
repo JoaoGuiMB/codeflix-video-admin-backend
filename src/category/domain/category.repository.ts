@@ -2,23 +2,14 @@ import {
   IRepository,
   ISearchableRepository,
 } from "../../shared/domain/repository/repository-interface";
-import {
-  SearchParams,
-  SortDirection,
-} from "../../shared/domain/repository/search-params";
+import { SearchParams } from "../../shared/domain/repository/search-params";
 import { SearchResult } from "../../shared/domain/repository/search-result";
 import { Uuid } from "../../shared/domain/value-objects/uuid.vo";
-import { categorySchema } from "../../shared/infra/db/drizzle/schemas/category";
 import { Category } from "./category.entity";
 
 export type CategoryFilter = string;
 
-export type CategorySortFields = "name" | "created_at";
-
-export class CategorySearchParams extends SearchParams<
-  CategorySortFields,
-  CategoryFilter
-> {}
+export class CategorySearchParams extends SearchParams<CategoryFilter> {}
 
 export class CategorySearchResult extends SearchResult<Category> {}
 

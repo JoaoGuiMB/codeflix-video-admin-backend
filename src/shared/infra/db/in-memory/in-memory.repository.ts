@@ -1,4 +1,3 @@
-import { CategorySortFields } from "../../../../category/domain/category.repository";
 import { Entity } from "../../../domain/entity";
 import { NotFoundError } from "../../../domain/errors/not-found.error";
 import {
@@ -18,13 +17,14 @@ export abstract class InMemoryRepository<
 > implements IRepository<E, EntityId>
 {
   items: E[] = [];
+
   async insert(entity: E): Promise<void> {
     this.items.push(entity);
   }
-
   async bulkInsert(entities: any[]): Promise<void> {
     this.items.push(...entities);
   }
+
   async update(entity: E): Promise<void> {
     const indexFound = this.items.findIndex((item) =>
       item.entity_id.equals(entity.entity_id)
@@ -45,20 +45,14 @@ export abstract class InMemoryRepository<
     this.items.splice(indexFound, 1);
   }
 
-  async findById(entity_id: EntityId): Promise<E | null> {
-    const indexFound = this.items.findIndex((item) =>
-      item.entity_id.equals(entity_id)
-    );
-    if (indexFound === -1) {
-      throw new NotFoundError(entity_id, this.getEntity());
-    }
-    return indexFound > -1 ? this.items[indexFound] : null;
+  async findById(entity_id: EntityId): Promise<E> {
+    const item = this.items.find((item) => item.entity_id.equals(entity_id));
+    return typeof item === "undefined" ? null : item;
   }
 
-  async findAll(): Promise<E[]> {
+  async findAll(): Promise<any[]> {
     return this.items;
   }
-
   abstract getEntity(): new (...args: any[]) => E;
 }
 
@@ -71,17 +65,13 @@ export abstract class InMemorySearchableRepository<
   implements ISearchableRepository<E, EntityId, Filter>
 {
   sortableFields: string[] = [];
-  async search(
-    props: SearchParams<CategorySortFields, Filter>
-  ): Promise<SearchResult<Entity>> {
-    const filteredItems = await this.applyFilter(this.items, props.filter);
-
+  async search(props: SearchParams<Filter>): Promise<SearchResult<E>> {
+    const itemsFiltered = await this.applyFilter(this.items, props.filter);
     const itemsSorted = this.applySort(
-      filteredItems,
+      itemsFiltered,
       props.sort,
       props.sort_dir
     );
-
     const itemsPaginated = this.applyPaginate(
       itemsSorted,
       props.page,
@@ -89,7 +79,7 @@ export abstract class InMemorySearchableRepository<
     );
     return new SearchResult({
       items: itemsPaginated,
-      total: itemsPaginated.length,
+      total: itemsFiltered.length,
       current_page: props.page,
       per_page: props.per_page,
     });
@@ -102,12 +92,12 @@ export abstract class InMemorySearchableRepository<
 
   protected applyPaginate(
     items: E[],
-    page: SearchParams<CategorySortFields, Filter>["page"],
-    per_page: SearchParams<CategorySortFields, Filter>["per_page"]
+    page: SearchParams["page"],
+    per_page: SearchParams["per_page"]
   ) {
-    const start = (page - 1) * per_page;
-    const end = start + per_page;
-    return items.slice(start, end);
+    const start = (page - 1) * per_page; // 0 * 15 = 0
+    const limit = start + per_page; // 0 + 15 = 15
+    return items.slice(start, limit);
   }
 
   protected applySort(

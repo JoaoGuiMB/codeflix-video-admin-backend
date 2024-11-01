@@ -1,31 +1,29 @@
 import { ValueObject } from "../value-object";
 
-export type SortDirection = "asc" | "desc";
+export type SortDirection = 'asc' | 'desc';
 
-export type SearchParamsConstructorProps<SortFields, Filter> = {
+export type SearchParamsConstructorProps<Filter = string> = {
   page?: number;
   per_page?: number;
-  sort?: SortFields | null;
+  sort?: string | null;
   sort_dir?: SortDirection | null;
   filter?: Filter | null;
 };
 
-export class SearchParams<SortFields, Filter> extends ValueObject {
+export class SearchParams<Filter = string> extends ValueObject {
   protected _page: number;
   protected _per_page: number = 15;
-  protected _sort: SortFields | null;
+  protected _sort: string | null;
   protected _sort_dir: SortDirection | null;
   protected _filter: Filter | null;
 
-  constructor(
-    props: SearchParamsConstructorProps<SortFields | null, Filter> = {}
-  ) {
+  constructor(props: SearchParamsConstructorProps<Filter> = {}) {
     super();
-    this.page = props.page!;
-    this.per_page = props.per_page!;
-    this.sort = props.sort!;
-    this.sort_dir = props.sort_dir!;
-    this.filter = props.filter!;
+    this.page = props.page;
+    this.per_page = props.per_page;
+    this.sort = props.sort;
+    this.sort_dir = props.sort_dir;
+    this.filter = props.filter;
   }
 
   get page() {
@@ -60,12 +58,13 @@ export class SearchParams<SortFields, Filter> extends ValueObject {
     this._per_page = _per_page;
   }
 
-  get sort(): SortFields | null {
+  get sort(): string | null {
     return this._sort;
   }
 
-  private set sort(value: SortFields | null) {
-    this._sort = value;
+  private set sort(value: string | null) {
+    this._sort =
+      value === null || value === undefined || value === '' ? null : `${value}`;
   }
 
   get sort_dir(): SortDirection | null {
@@ -78,7 +77,7 @@ export class SearchParams<SortFields, Filter> extends ValueObject {
       return;
     }
     const dir = `${value}`.toLowerCase();
-    this._sort_dir = dir !== "asc" && dir !== "desc" ? "asc" : dir;
+    this._sort_dir = dir !== 'asc' && dir !== 'desc' ? 'asc' : dir;
   }
 
   get filter(): Filter | null {
@@ -87,7 +86,7 @@ export class SearchParams<SortFields, Filter> extends ValueObject {
 
   protected set filter(value: Filter | null) {
     this._filter =
-      value === null || value === undefined || (value as unknown) === ""
+      value === null || value === undefined || (value as unknown) === ''
         ? null
         : (`${value}` as any);
   }
