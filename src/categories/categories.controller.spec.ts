@@ -5,13 +5,14 @@ import { CategoryModel } from '@core/category/infra/db/sequelize/category.model'
 import { getModelToken, SequelizeModule } from '@nestjs/sequelize';
 import { DatabaseModule } from 'src/database/database.module';
 import { CategoriesModule } from './categories.module';
+import { ConfigModule } from 'src/config/config.module';
 
 describe('CategoriesController', () => {
   let controller: CategoriesController;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [DatabaseModule, CategoriesModule],
+      imports: [ConfigModule.forRoot(), DatabaseModule, CategoriesModule],
     }).compile();
 
     controller = module.get<CategoriesController>(CategoriesController);
