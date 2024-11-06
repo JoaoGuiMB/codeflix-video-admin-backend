@@ -15,8 +15,8 @@ export const REPOSITORIES = {
     useExisting: CategorySequelizeRepository,
   },
   CATEGORY_IN_MEMORY_REPOSITORY: {
-    provide: 'CategoryInMemoryRepository',
-    useExisting: CategoryInMemoryRepository,
+    provide: CategoryInMemoryRepository,
+    useClass: CategoryInMemoryRepository,
   },
   CATEGORY_SEQUELIZE_REPOSITORY: {
     provide: CategorySequelizeRepository,
