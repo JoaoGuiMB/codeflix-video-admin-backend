@@ -30,7 +30,10 @@ export const CONFIG_DB_SCHEMA: Joi.StrictSchemaMap<DB_SCHEMA_TYPE> = {
     is: 'mysql',
     then: Joi.required(),
   }),
-  DB_PASSWORD: Joi.string().required(),
+  DB_PASSWORD: Joi.string().when('DB_VENDOR', {
+    is: 'mysql',
+    then: Joi.required(),
+  }),
   DB_DATABASE: Joi.string().when('DB_VENDOR', {
     is: 'mysql',
     then: Joi.required(),
