@@ -10,7 +10,7 @@ describe('DatabaseModule Unit Tests', () => {
       DB_VENDOR: 'sqlite',
       DB_HOST: ':memory:',
       DB_LOGGING: false,
-      DB_AUTO_LOAD_MODELS: true,
+      DB_AUTOLOAD_MODELS: true,
     };
 
     it('should be a sqlite connection', async () => {
@@ -45,7 +45,7 @@ describe('DatabaseModule Unit Tests', () => {
       DB_PASSWORD: 'root',
       DB_PORT: 3306,
       DB_LOGGING: false,
-      DB_AUTO_LOAD_MODELS: true,
+      DB_AUTOLOAD_MODELS: true,
     };
 
     it('should be a mysql connection', async () => {
