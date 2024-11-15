@@ -45,7 +45,7 @@ describe('DatabaseModule Unit Tests', () => {
       DB_PASSWORD: 'root',
       DB_PORT: 3306,
       DB_LOGGING: false,
-      DB_AUTOLOAD_MODELS: true,
+      DB_AUTOLOAD_MODELS: false,
     };
 
     it('should be a mysql connection', async () => {
