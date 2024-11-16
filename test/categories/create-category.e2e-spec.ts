@@ -19,6 +19,39 @@ describe('CategoriesController (e2e)', () => {
     );
   });
 
+  describe('should return a response error with 422 status code when body is invalid', () => {
+    const invalidRequest = CreateCategoryFixture.arrangeInvalidRequest();
+    const arrange = Object.keys(invalidRequest).map((key) => ({
+      label: key,
+      value: invalidRequest[key],
+    }));
+
+    test.each(arrange)('when body is $label', async ({ value }) => {
+      await request(appHelper.app.getHttpServer())
+        .post('/categories')
+        .send(value.send_data)
+        .expect(422)
+        .expect(value.expected);
+    });
+  });
+
+  describe('should return a response error with 422 status code when EntityValidationError', () => {
+    const invalidRequest =
+      CreateCategoryFixture.arrangeForEntityValidationError();
+    const arrange = Object.keys(invalidRequest).map((key) => ({
+      label: key,
+      value: invalidRequest[key],
+    }));
+
+    test.each(arrange)('when body is $label', async ({ value }) => {
+      await request(appHelper.app.getHttpServer())
+        .post('/categories')
+        .send(value.send_data)
+        .expect(422)
+        .expect(value.expected);
+    });
+  });
+
   describe('should create a category', () => {
     const arrange = CreateCategoryFixture.arrangeForCreate();
 
