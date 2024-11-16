@@ -2,7 +2,6 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { ICategoryRepository } from '../../../core/category/domain/category.repository';
 import { CategoriesController } from '../categories.controller';
 import { ConfigModule } from '../../config-module/config.module';
-import { DatabaseModule } from '../../database-module/database.module';
 import { CategoriesModule } from '../categories.module';
 import { CATEGORY_PROVIDERS } from '../categories.providers';
 import { CreateCategoryUseCase } from '../../../core/category/application/use-cases/create-category/create-category.use-case';
@@ -23,6 +22,7 @@ import {
 } from '../testing/category-fixture';
 import { Category } from '@core/category/domain/category.entity';
 import { Uuid } from '@core/shared/domain/value-objects/uuid.vo';
+import { DatabaseModule } from 'src/nest-modules/database-module/database.module';
 
 describe('CategoriesController Integration Tests', () => {
   let controller: CategoriesController;
