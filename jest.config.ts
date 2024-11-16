@@ -209,6 +209,19 @@ const config: Config = {
   testEnvironment: 'node',
   setupFilesAfterEnv: ['./core/shared/infra/testing/expect-helpers.ts'],
   coverageProvider: 'v8',
+  coveragePathIgnorePatterns: [
+    '/node_modules/',
+    '.interface.ts',
+    'shared/testing',
+    'shared-module/testing',
+    'validator-rules.ts',
+    '-fixtures.ts',
+    '.input.ts',
+    '.d.ts',
+    '.dto.ts',
+    '/coverage',
+  ],
+
   clearMocks: true,
 };
 
