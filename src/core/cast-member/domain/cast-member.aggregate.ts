@@ -13,6 +13,11 @@ export type CastMemberConstructorProps = {
   created_at?: Date;
 };
 
+export type CastMemberCreateCommand = {
+  name: string;
+  type: CastMemberTypes;
+};
+
 export class CastMemberId extends Uuid {}
 
 export class CastMember extends AggregateRoot {
@@ -31,6 +36,12 @@ export class CastMember extends AggregateRoot {
     this.notification = new Notification();
   }
 
+  static create(props: CastMemberCreateCommand): CastMember {
+    const castMember = new CastMember(props);
+    castMember.validate(['name']);
+    return castMember;
+  }
+
   get entity_id(): ValueObject {
     return this.cast_member_id;
   }
@@ -44,7 +55,7 @@ export class CastMember extends AggregateRoot {
     this.type = type;
   }
 
-  private validate(fields?: string[]) {
+  validate(fields?: string[]) {
     const validator = CastMemberValidatorFactory.create();
     return validator.validate(this.notification, this, fields);
   }
