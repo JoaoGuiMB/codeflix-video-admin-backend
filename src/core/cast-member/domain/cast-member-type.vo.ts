@@ -1,8 +1,9 @@
-import { ValueObject } from '@core/shared/domain/value-object';
+import { Either } from '../../shared/domain/either';
+import { ValueObject } from '../../shared/domain/value-object';
 
 export enum CastMemberTypes {
-  ACTOR = 1,
-  DIRECTOR = 2,
+  DIRECTOR = 1,
+  ACTOR = 2,
 }
 
 export class CastMemberType extends ValueObject {
@@ -13,23 +14,25 @@ export class CastMemberType extends ValueObject {
 
   private validate() {
     const isValid =
-      this.type === CastMemberTypes.ACTOR ||
-      this.type === CastMemberTypes.DIRECTOR;
+      this.type === CastMemberTypes.DIRECTOR ||
+      this.type === CastMemberTypes.ACTOR;
     if (!isValid) {
-      throw new Error('Invalid CastMemberType');
+      throw new InvalidCastMemberTypeError(this.type);
     }
   }
 
-  static create(value: CastMemberTypes) {
-    return new CastMemberType(value);
+  static create(
+    value: CastMemberTypes,
+  ): Either<CastMemberType, InvalidCastMemberTypeError> {
+    return Either.safe(() => new CastMemberType(value));
   }
 
   static createAnActor() {
-    return CastMemberType.create(CastMemberTypes.ACTOR);
+    return CastMemberType.create(CastMemberTypes.ACTOR).ok;
   }
 
   static createADirector() {
-    return CastMemberType.create(CastMemberTypes.DIRECTOR);
+    return CastMemberType.create(CastMemberTypes.DIRECTOR).ok;
   }
 }
 

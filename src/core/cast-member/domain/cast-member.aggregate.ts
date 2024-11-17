@@ -1,21 +1,20 @@
-import { AggregateRoot } from '@core/shared/domain/aggregate-root';
-import { CastMemberTypes } from './cast-member-type.vo';
-import { ValueObject } from '@core/shared/domain/value-object';
-import { Uuid } from '@core/shared/domain/value-objects/uuid.vo';
-import { Notification } from '@core/shared/domain/validators/notification';
+import { Uuid } from '../../shared/domain/value-objects/uuid.vo';
 import { CastMemberValidatorFactory } from './cast-member.validator';
+import { CastMemberType } from './cast-member-type.vo';
 import { CastMemberFakeBuilder } from './cast-member-fake.builder';
+import { AggregateRoot } from '../../shared/domain/aggregate-root';
+import { Notification } from '@core/shared/domain/validators/notification';
 
 export type CastMemberConstructorProps = {
   cast_member_id?: CastMemberId;
   name: string;
-  type: CastMemberTypes;
+  type: CastMemberType;
   created_at?: Date;
 };
 
 export type CastMemberCreateCommand = {
   name: string;
-  type: CastMemberTypes;
+  type: CastMemberType;
 };
 
 export class CastMemberId extends Uuid {}
@@ -23,7 +22,7 @@ export class CastMemberId extends Uuid {}
 export class CastMember extends AggregateRoot {
   cast_member_id: CastMemberId;
   name: string;
-  type: CastMemberTypes;
+  type: CastMemberType;
   created_at: Date;
   notification: Notification;
 
@@ -36,14 +35,10 @@ export class CastMember extends AggregateRoot {
     this.notification = new Notification();
   }
 
-  static create(props: CastMemberCreateCommand): CastMember {
+  static create(props: CastMemberCreateCommand) {
     const castMember = new CastMember(props);
     castMember.validate(['name']);
     return castMember;
-  }
-
-  get entity_id(): ValueObject {
-    return this.cast_member_id;
   }
 
   changeName(name: string): void {
@@ -51,7 +46,7 @@ export class CastMember extends AggregateRoot {
     this.validate(['name']);
   }
 
-  changeType(type: CastMemberTypes): void {
+  changeType(type: CastMemberType): void {
     this.type = type;
   }
 
@@ -64,11 +59,15 @@ export class CastMember extends AggregateRoot {
     return CastMemberFakeBuilder;
   }
 
+  get entity_id() {
+    return this.cast_member_id;
+  }
+
   toJSON() {
     return {
       cast_member_id: this.cast_member_id.id,
       name: this.name,
-      type: this.type,
+      type: this.type.type,
       created_at: this.created_at,
     };
   }
