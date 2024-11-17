@@ -17,14 +17,6 @@ export class CastMemberFakeBuilder<TBuild = any> {
 
   private countObjs;
 
-  static aCastMember() {
-    return new CastMemberFakeBuilder<CastMember>();
-  }
-
-  static theCastMembers(countObjs: number) {
-    return new CastMemberFakeBuilder<CastMember[]>(countObjs);
-  }
-
   private chance: Chance.Chance;
 
   private constructor(countObjs: number = 1) {
@@ -32,28 +24,36 @@ export class CastMemberFakeBuilder<TBuild = any> {
     this.chance = Chance();
   }
 
+  static aCastMember() {
+    return new CastMemberFakeBuilder<CastMember>();
+  }
+
   static aDirector() {
     return new CastMemberFakeBuilder<CastMember>().withType(
-      new CastMemberType(CastMemberTypes.DIRECTOR),
+      CastMemberType.createADirector(),
     );
   }
 
   static anActor() {
     return new CastMemberFakeBuilder<CastMember>().withType(
-      new CastMemberType(CastMemberTypes.ACTOR),
+      CastMemberType.createAnActor(),
     );
   }
 
   static theActors(countObjs: number) {
     return new CastMemberFakeBuilder<CastMember[]>(countObjs).withType(
-      new CastMemberType(CastMemberTypes.ACTOR),
+      CastMemberType.createAnActor(),
     );
   }
 
   static theDirectors(countObjs: number) {
     return new CastMemberFakeBuilder<CastMember[]>(countObjs).withType(
-      new CastMemberType(CastMemberTypes.DIRECTOR),
+      CastMemberType.createADirector(),
     );
+  }
+
+  static theCastMembers(countObjs: number) {
+    return new CastMemberFakeBuilder<CastMember[]>(countObjs);
   }
 
   withUuid(valueOrFactory: PropOrFactory<CastMemberId>) {
@@ -78,6 +78,11 @@ export class CastMemberFakeBuilder<TBuild = any> {
 
   withInvalidNameTooLong(value?: string) {
     this._name = value ?? this.chance.word({ length: 256 });
+    return this;
+  }
+
+  withCastMemberId(valueOrFactory: PropOrFactory<CastMemberId>) {
+    this._cast_member_id = valueOrFactory;
     return this;
   }
 
@@ -107,6 +112,10 @@ export class CastMemberFakeBuilder<TBuild = any> {
 
   get name() {
     return this.getValue('name');
+  }
+
+  get type() {
+    return this.getValue('type');
   }
 
   get created_at() {

@@ -19,6 +19,18 @@ export class CastMemberType extends ValueObject {
       throw new Error('Invalid CastMemberType');
     }
   }
+
+  static create(value: CastMemberTypes) {
+    return new CastMemberType(value);
+  }
+
+  static createAnActor() {
+    return CastMemberType.create(CastMemberTypes.ACTOR);
+  }
+
+  static createADirector() {
+    return CastMemberType.create(CastMemberTypes.DIRECTOR);
+  }
 }
 
 export class InvalidCastMemberTypeError extends Error {
