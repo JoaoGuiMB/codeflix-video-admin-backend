@@ -20,8 +20,7 @@ import {
   ListCategoriesFixture,
   UpdateCategoryFixture,
 } from '../testing/category-fixture';
-import { Category } from '@core/category/domain/category.aggregate';
-import { Uuid } from '@core/shared/domain/value-objects/uuid.vo';
+import { Category, CategoryId } from '@core/category/domain/category.aggregate';
 import { DatabaseModule } from 'src/nest-modules/database-module/database.module';
 
 describe('CategoriesController Integration Tests', () => {
@@ -53,7 +52,7 @@ describe('CategoriesController Integration Tests', () => {
       'when body is $send_data',
       async ({ send_data, expected }) => {
         const presenter = await controller.create(send_data);
-        const entity = await repository.findById(new Uuid(presenter.id));
+        const entity = await repository.findById(new CategoryId(presenter.id));
         expect(entity!.toJSON()).toStrictEqual({
           category_id: presenter.id,
           created_at: presenter.created_at,
@@ -81,7 +80,7 @@ describe('CategoriesController Integration Tests', () => {
           category.category_id.id,
           send_data,
         );
-        const entity = await repository.findById(new Uuid(presenter.id));
+        const entity = await repository.findById(new CategoryId(presenter.id));
         expect(entity!.toJSON()).toStrictEqual({
           category_id: presenter.id,
           created_at: presenter.created_at,
