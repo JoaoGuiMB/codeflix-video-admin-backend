@@ -5,9 +5,8 @@ import * as CategoryProviders from '../../src/nest-modules/categories-module/cat
 import { CategoryOutputMapper } from '../../src/core/category/application/use-cases/common/category-output';
 import { startApp } from '../../src/nest-modules/shared-module/testing/helpers';
 import { CategoriesController } from '../../src/nest-modules/categories-module/categories.controller';
-
+import { Category } from '../../src/core/category/domain/category.aggregate';
 import { GetCategoryFixture } from '../../src/nest-modules/categories-module/testing/category-fixture';
-import { Category } from '@core/category/domain/category.aggregate';
 
 describe('CategoriesController (e2e)', () => {
   const nestApp = startApp();
@@ -36,6 +35,7 @@ describe('CategoriesController (e2e)', () => {
       test.each(arrange)('when id is $id', async ({ id, expected }) => {
         return request(nestApp.app.getHttpServer())
           .get(`/categories/${id}`)
+
           .expect(expected.statusCode)
           .expect(expected);
       });
@@ -51,7 +51,7 @@ describe('CategoriesController (e2e)', () => {
       const res = await request(nestApp.app.getHttpServer())
         .get(`/categories/${category.category_id.id}`)
         .expect(200);
-      const keyInResponse = GetCategoryFixture.keyInResponse;
+      const keyInResponse = GetCategoryFixture.keysInResponse;
       expect(Object.keys(res.body)).toStrictEqual(['data']);
       expect(Object.keys(res.body.data)).toStrictEqual(keyInResponse);
 

@@ -1,4 +1,10 @@
-import { IsBoolean, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import {
+  IsBoolean,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  validateSync,
+} from 'class-validator';
 
 export type CreateCategoryInputConstructorProps = {
   name: string;
@@ -13,7 +19,7 @@ export class CreateCategoryInput {
 
   @IsString()
   @IsOptional()
-  description?: string;
+  description?: string | null;
 
   @IsBoolean()
   @IsOptional()
@@ -24,5 +30,11 @@ export class CreateCategoryInput {
     this.name = props.name;
     this.description = props.description;
     this.is_active = props.is_active;
+  }
+}
+
+export class ValidateCreateCategoryInput {
+  static validate(input: CreateCategoryInput) {
+    return validateSync(input);
   }
 }

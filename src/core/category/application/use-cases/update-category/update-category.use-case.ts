@@ -15,16 +15,18 @@ export class UpdateCategoryUseCase
   constructor(private categoryRepo: ICategoryRepository) {}
 
   async execute(input: UpdateCategoryInput): Promise<UpdateCategoryOutput> {
-    const uuid = new CategoryId(input.id);
-    const category = await this.categoryRepo.findById(uuid);
+    const categoryId = new CategoryId(input.id);
+    const category = await this.categoryRepo.findById(categoryId);
 
     if (!category) {
       throw new NotFoundError(input.id, Category);
     }
 
-    input.name && category.changeName(input.name);
+    if (input.name !== undefined) {
+      category.changeName(input.name);
+    }
 
-    if ('description' in input) {
+    if (input.description !== undefined) {
       category.changeDescription(input.description);
     }
 

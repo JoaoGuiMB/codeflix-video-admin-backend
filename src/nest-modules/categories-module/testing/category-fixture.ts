@@ -1,15 +1,15 @@
-import { Category } from '@core/category/domain/category.aggregate';
+import { Category } from '../../../core/category/domain/category.aggregate';
 
 const _keysInResponse = [
   'id',
   'name',
   'description',
-  'created_at',
   'is_active',
+  'created_at',
 ];
 
 export class GetCategoryFixture {
-  static keyInResponse = _keysInResponse;
+  static keysInResponse = _keysInResponse;
 }
 
 export class CreateCategoryFixture {
@@ -78,6 +78,7 @@ export class CreateCategoryFixture {
       },
     ];
   }
+
   static arrangeInvalidRequest() {
     const defaultExpected = {
       statusCode: 422,
