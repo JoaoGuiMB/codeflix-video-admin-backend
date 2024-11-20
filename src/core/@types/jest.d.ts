@@ -4,6 +4,7 @@ declare global {
     interface Matchers<R> {
       //containsErrorMessages: (expected: FieldsErrors) => R;
       notificationContainsErrorMessages: (expected: Array<FieldsErrors>) => R;
+      toBeValueObject: (expected: ValueObject) => R;
     }
   }
 }
