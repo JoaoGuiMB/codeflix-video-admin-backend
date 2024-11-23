@@ -1,5 +1,5 @@
 import { MediaFileValidator } from '@core/shared/domain/validators/media-file.validator';
-import { ImageMedia } from './image-media.vo';
+import { ImageMedia } from '../../shared/domain/value-objects/image-media.vo';
 import { Either } from '@core/shared/domain/either';
 import { VideoId } from './video.aggregate';
 
