@@ -13,7 +13,8 @@ import { ThumbnailHalf } from './thumbnail-half.vo';
 import { AudioVideoMediaStatus } from '../../shared/domain/value-objects/audio-video-media.vo';
 import { VideoFakeBuilder } from './video-fake.builder';
 import { VideoCreatedEvent } from './domain-events/video-created.event';
-import { VideoAudioMediaReplaced } from './domain-events/video-audio-media-replaced.event';
+import { VideoAudioMediaReplaced } from './domain-events/video-audio-media-replaced';
+import { Notification } from '@core/shared/domain/validators/notification';
 
 export type VideoConstructorProps = {
   video_id?: VideoId;
@@ -79,6 +80,7 @@ export class Video extends AggregateRoot {
   cast_members_id: Map<string, CastMemberId>;
 
   created_at: Date;
+  notification: Notification;
 
   constructor(props: VideoConstructorProps) {
     super();
@@ -101,6 +103,7 @@ export class Video extends AggregateRoot {
     this.genres_id = props.genres_id;
     this.cast_members_id = props.cast_members_id;
     this.created_at = props.created_at ?? new Date();
+    this.notification = new Notification();
 
     this.registerHandler(
       VideoCreatedEvent.name,
