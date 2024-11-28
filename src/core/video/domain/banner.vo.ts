@@ -1,10 +1,10 @@
-import { MediaFileValidator } from '@core/shared/domain/validators/media-file.validator';
+import { Either } from '../../shared/domain/either';
+import { MediaFileValidator } from '../../shared/domain/validators/media-file.validator';
 import { ImageMedia } from '../../shared/domain/value-objects/image-media.vo';
-import { Either } from '@core/shared/domain/either';
 import { VideoId } from './video.aggregate';
 
 export class Banner extends ImageMedia {
-  static max_size = 1024 * 1024 * 2;
+  static max_size = 1024 * 1024 * 2; // 2MB
   static mime_types = ['image/jpeg', 'image/png', 'image/gif'];
 
   static createFromFile({
@@ -25,7 +25,7 @@ export class Banner extends ImageMedia {
 
     return Either.safe(() => {
       const { name: newName } = mediaFileValidator.validate({
-        raw_name: raw_name,
+        raw_name,
         mime_type,
         size,
       });

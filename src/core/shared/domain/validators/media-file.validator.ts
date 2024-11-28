@@ -1,4 +1,4 @@
-import { createHash } from 'crypto';
+import crypto from 'crypto';
 
 export class MediaFileValidator {
   constructor(
@@ -38,24 +38,30 @@ export class MediaFileValidator {
 
   private generateRandomName(raw_name: string) {
     const extension = raw_name.split('.').pop();
+
     return (
-      createHash('sha256')
+      crypto
+        .createHash('sha256')
         .update(raw_name + Math.random() + Date.now())
-        .digest('hex') + `.${extension}`
+        .digest('hex') +
+      '.' +
+      extension
     );
   }
 }
 
 export class InvalidMediaFileSizeError extends Error {
   constructor(actual_size: number, max_size: number) {
-    super(`Invalid media file size: ${max_size} > ${actual_size}`);
+    super(`Invalid media file size: ${actual_size} > ${max_size}`);
   }
 }
 
 export class InvalidMediaFileMimeTypeError extends Error {
   constructor(actual_mime_type: string, valid_mime_types: string[]) {
     super(
-      `Invalid media file mime type:${actual_mime_type} not in ${valid_mime_types.join(', ')}`,
+      `Invalid media file mime type: ${actual_mime_type} not in ${valid_mime_types.join(
+        ', ',
+      )}`,
     );
   }
 }

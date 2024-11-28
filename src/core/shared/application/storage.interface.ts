@@ -4,5 +4,5 @@ export interface IStorage {
     mime_type?: string;
     id: string;
   }): Promise<void>;
-  get(id: string): Promise<{ data: Buffer; mime_type: string }>;
+  get(id: string): Promise<{ data: Buffer; mime_type?: string }>;
 }
