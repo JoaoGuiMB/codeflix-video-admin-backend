@@ -10,7 +10,7 @@ import { EntityValidationError } from '@core/shared/domain/validators/validation
 import { IUnitOfWork } from '@core/shared/domain/repository/unit-of-work.interface';
 import { IStorage } from '@core/shared/application/storage.interface';
 
-export class UploadeImageMediasUseCase
+export class UploadImageMediasUseCase
   implements IUseCase<UploadeImageMediasInput, UploadeImageMediasOutput>
 {
   constructor(
