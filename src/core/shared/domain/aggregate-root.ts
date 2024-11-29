@@ -4,6 +4,7 @@ import EventEmitter2 from 'eventemitter2';
 
 export abstract class AggregateRoot extends Entity {
   events: Set<IDomainEvent> = new Set<IDomainEvent>();
+  dispatchedEvents: Set<IDomainEvent> = new Set<IDomainEvent>();
   localMediator: EventEmitter2 = new EventEmitter2();
 
   applyEvent(event: IDomainEvent) {
@@ -13,5 +14,18 @@ export abstract class AggregateRoot extends Entity {
 
   registerHandler(event: string, handler: (event: IDomainEvent) => void) {
     this.localMediator.on(event, handler);
+  }
+
+  markEventAsDispatched(event: IDomainEvent) {
+    this.dispatchedEvents.add(event);
+  }
+
+  getUncommittedEvents(): IDomainEvent[] {
+    return [...this.events].filter((e) => !this.dispatchedEvents.has(e));
+  }
+
+  clearEvents() {
+    this.events.clear();
+    this.dispatchedEvents.clear();
   }
 }
