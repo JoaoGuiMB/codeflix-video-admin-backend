@@ -11,8 +11,8 @@ export class ProcessAudioVideoMediasUseCase
     IUseCase<ProcessAudioVideoMediasInput, ProcessAudioVideoMediasOutput>
 {
   constructor(
-    private videoRepo: IVideoRepository,
     private uow: IUnitOfWork,
+    private videoRepo: IVideoRepository,
   ) {}
 
   async execute(
