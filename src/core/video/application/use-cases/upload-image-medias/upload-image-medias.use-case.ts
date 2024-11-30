@@ -1,27 +1,27 @@
-import { IUseCase } from '@core/shared/application/use-case.interface';
-import { UploadeImageMediasInput } from './uploade-image-medias.input';
-import { Video, VideoId } from '@core/video/domain/video.aggregate';
-import { NotFoundError } from '@core/shared/domain/errors/not-found.error';
-import { IVideoRepository } from '@core/video/domain/video.repository';
-import { Banner } from '@core/video/domain/banner.vo';
-import { Thumbnail } from '@core/video/domain/thumbnail.vo';
-import { ThumbnailHalf } from '@core/video/domain/thumbnail-half.vo';
-import { EntityValidationError } from '@core/shared/domain/validators/validation.error';
-import { IStorage } from '@core/shared/application/storage.interface';
-import { ApplicationService } from '@core/shared/application/application.service';
+import { IStorage } from '../../../../shared/application/storage.interface';
+import { IUseCase } from '../../../../shared/application/use-case.interface';
+import { NotFoundError } from '../../../../shared/domain/errors/not-found.error';
+import { IUnitOfWork } from '../../../../shared/domain/repository/unit-of-work.interface';
+import { EntityValidationError } from '../../../../shared/domain/validators/validation.error';
+import { Banner } from '../../../domain/banner.vo';
+import { ThumbnailHalf } from '../../../domain/thumbnail-half.vo';
+import { Thumbnail } from '../../../domain/thumbnail.vo';
+import { Video, VideoId } from '../../../domain/video.aggregate';
+import { IVideoRepository } from '../../../domain/video.repository';
+import { UploadImageMediasInput } from './upload-image-medias.input';
 
 export class UploadImageMediasUseCase
-  implements IUseCase<UploadeImageMediasInput, UploadeImageMediasOutput>
+  implements IUseCase<UploadImageMediasInput, UploadImageMediasOutput>
 {
   constructor(
-    private appService: ApplicationService,
+    private uow: IUnitOfWork,
     private videoRepo: IVideoRepository,
     private storage: IStorage,
   ) {}
 
   async execute(
-    input: UploadeImageMediasInput,
-  ): Promise<UploadeImageMediasOutput> {
+    input: UploadImageMediasInput,
+  ): Promise<UploadImageMediasOutput> {
     const videoId = new VideoId(input.video_id);
     const video = await this.videoRepo.findById(videoId);
 
@@ -35,41 +35,33 @@ export class UploadImageMediasUseCase
       thumbnail_half: ThumbnailHalf,
     };
 
-    const [image, errorImage] = imagesMap[input.field].createFromFile({
-      ...input.file,
-      video_id: videoId,
-    });
+    const [image, errorImage] = imagesMap[input.field]
+      .createFromFile({
+        ...input.file,
+        video_id: videoId,
+      })
+      .asArray();
 
     if (errorImage) {
-      throw new EntityValidationError([{ [input.field]: [errorImage.name] }]);
+      throw new EntityValidationError([
+        { [input.field]: [errorImage.message] },
+      ]);
     }
 
-    if (image instanceof Banner) {
-      video.replaceBanner(image);
-    }
+    image instanceof Banner && video.replaceBanner(image);
+    image instanceof Thumbnail && video.replaceThumbnail(image);
+    image instanceof ThumbnailHalf && video.replaceThumbnailHalf(image);
 
-    if (image instanceof Thumbnail) {
-      video.replaceThumbnail(image);
-    }
-
-    if (image instanceof ThumbnailHalf) {
-      video.replaceThumbnailHalf(image);
-    }
-
-    if (!(image instanceof Error)) {
-      await this.storage.store({
-        data: input.file.data,
-        mime_type: input.file.mime_type,
-        id: image.url,
-      });
-    }
-
-    this.appService.run(async () => {
-      return await this.videoRepo.update(video);
+    await this.storage.store({
+      data: input.file.data,
+      mime_type: input.file.mime_type,
+      id: image.url,
     });
 
-    return { id: input.video_id };
+    await this.uow.do(async () => {
+      await this.videoRepo.update(video);
+    });
   }
 }
 
-export type UploadeImageMediasOutput = { id: string };
+export type UploadImageMediasOutput = void;

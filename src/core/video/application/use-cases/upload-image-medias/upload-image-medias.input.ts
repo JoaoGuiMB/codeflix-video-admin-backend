@@ -7,7 +7,7 @@ import {
 } from 'class-validator';
 import { FileMediaInput } from '../common/file-media.input';
 
-export class UploadeImageMediasInput {
+export class UploadImageMediasInput {
   @IsString()
   @IsNotEmpty()
   video_id: string;
@@ -19,7 +19,7 @@ export class UploadeImageMediasInput {
   @ValidateNested()
   file: FileMediaInput;
 
-  constructor(props?: UploadeImageMediasInput) {
+  constructor(props?: UploadImageMediasInput) {
     if (!props) return;
     this.video_id = props.video_id;
     this.field = props.field;
@@ -28,7 +28,7 @@ export class UploadeImageMediasInput {
 }
 
 export class ValidateUploadImageMediasInput {
-  static validate(input: UploadeImageMediasInput) {
+  static validate(input: UploadImageMediasInput) {
     return validateSync(input);
   }
 }
