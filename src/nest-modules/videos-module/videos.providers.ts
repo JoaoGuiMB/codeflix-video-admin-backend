@@ -143,12 +143,18 @@ export const USE_CASES = {
   },
 };
 
-export const HANDLERS = {
-  PUBLISH_VIDEO_MEDIA_REPLACED_IN_QUEUE_HANDLER: {},
-};
+// export const HANDLERS = {
+//   PUBLISH_VIDEO_MEDIA_REPLACED_IN_QUEUE_HANDLER: {
+//     provide: PublishVideoMediaReplacedInQueueHandler,
+//     useFactory: (messageBroker: IMessageBroker) => {
+//       return new PublishVideoMediaReplacedInQueueHandler(messageBroker);
+//     },
+//     inject: ['IMessageBroker'],
+//   },
+// };
 
 export const VIDEOS_PROVIDERS = {
   REPOSITORIES,
   USE_CASES,
-  HANDLERS,
+  // HANDLERS,
 };
