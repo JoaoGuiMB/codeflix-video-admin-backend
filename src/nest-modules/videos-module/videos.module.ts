@@ -13,8 +13,6 @@ import { ImageMediaModel } from '../../core/video/infra/db/sequelize/image-media
 import { AudioVideoMediaModel } from '../../core/video/infra/db/sequelize/audio-video-media.model';
 import { GenresModule } from '../genres-module/genres.module';
 import { CastMembersModule } from '../cast-members-module/cast-members.module';
-import { RabbitmqModule } from '../rabbitmq-module/rabbitmq.module';
-import { VideosConsumers } from './videos.consumers';
 
 @Module({
   imports: [
@@ -26,7 +24,6 @@ import { VideosConsumers } from './videos.consumers';
       ImageMediaModel,
       AudioVideoMediaModel,
     ]),
-    RabbitmqModule.forFeature(),
     CategoriesModule,
     GenresModule,
     CastMembersModule,
@@ -36,7 +33,6 @@ import { VideosConsumers } from './videos.consumers';
     ...Object.values(VIDEOS_PROVIDERS.REPOSITORIES),
     ...Object.values(VIDEOS_PROVIDERS.USE_CASES),
     ...Object.values(VIDEOS_PROVIDERS.HANDLERS),
-    VideosConsumers,
   ],
   //exports: [VIDEOS_PROVIDERS.REPOSITORIES.VIDEO_REPOSITORY.provide],
 })

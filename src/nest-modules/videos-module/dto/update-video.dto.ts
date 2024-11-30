@@ -1,4 +1,8 @@
 import { PartialType } from '@nestjs/mapped-types';
-import { CreateVideoDto } from './create-video.dto';
+import { UpdateVideoInput } from '@core/video/application/use-cases/update-video/update-video.input';
 
-export class UpdateVideoDto extends PartialType(CreateVideoDto) {}
+export class UpdateVideoInputWithoutId extends PartialType(UpdateVideoInput, [
+  'id',
+] as any) {}
+
+export class UpdateVideoDto extends UpdateVideoInputWithoutId {}
