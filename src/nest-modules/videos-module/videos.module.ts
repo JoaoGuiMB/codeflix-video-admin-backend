@@ -34,7 +34,7 @@ import { SharedModule } from '../shared-module/shared.module';
   providers: [
     ...Object.values(VIDEOS_PROVIDERS.REPOSITORIES),
     ...Object.values(VIDEOS_PROVIDERS.USE_CASES),
-    // ...Object.values(VIDEOS_PROVIDERS.HANDLERS),
+    ...Object.values(VIDEOS_PROVIDERS.HANDLERS),
   ],
   //exports: [VIDEOS_PROVIDERS.REPOSITORIES.VIDEO_REPOSITORY.provide],
 })
