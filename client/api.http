@@ -166,3 +166,7 @@ Content-Type: application/json
 GET http://localhost:3000/auth
 Content-Type: application/json
 Authorization: Bearer {{jwtToken}}
+
+###
+
+GET http://localhost:3000/fake-event
