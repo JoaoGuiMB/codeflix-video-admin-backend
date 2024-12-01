@@ -13,10 +13,12 @@ import EventEmitter2 from 'eventemitter2';
     {
       provide: 'IStorage',
       useFactory: (configService: ConfigService) => {
-        const credentials = configService.get('GOOGLE_CLOUD_CREDENTIALS');
+        const credentials = configService.get(
+          'GOOGLE_CLOUD_CREDENTIALS',
+        ) as string;
         const bucket = configService.get('GOOGLE_CLOUD_STORAGE_BUCKET_NAME');
         const storage = new GoogleCloudStorageSdk({
-          credentials,
+          credentials: JSON.parse(credentials),
         });
         return new GoogleCloudStorage(storage, bucket);
       },

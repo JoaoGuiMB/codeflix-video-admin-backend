@@ -89,6 +89,7 @@ export class VideosController {
       });
       const input = new UpdateVideoInput({ id, ...data });
       await this.updateUseCase.execute(input);
+      return await this.getUseCase.execute({ id });
     }
 
     const hasMoreThanOneFile = Object.keys(files).length > 1;
