@@ -1,7 +1,7 @@
 import { ApplicationService } from '@core/shared/application/application.service';
 import { DomainEventMediator } from '@core/shared/domain/events/domain-event-mediator';
 import { IUnitOfWork } from '@core/shared/domain/repository/unit-of-work.interface';
-import { Global, Module, Scope } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 
 @Global()
 @Module({
@@ -15,7 +15,7 @@ import { Global, Module, Scope } from '@nestjs/common';
         return new ApplicationService(uow, domainEventMediator);
       },
       inject: ['UnitOfWork', DomainEventMediator],
-      scope: Scope.REQUEST,
+      // scope: Scope.REQUEST,
     },
   ],
   exports: [ApplicationService],
