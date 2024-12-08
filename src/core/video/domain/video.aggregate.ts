@@ -13,7 +13,7 @@ import { ThumbnailHalf } from './thumbnail-half.vo';
 import { AudioVideoMediaStatus } from '../../shared/domain/value-objects/audio-video-media.vo';
 import { VideoFakeBuilder } from './video-fake.builder';
 import { VideoCreatedEvent } from './domain-events/video-created.event';
-import { VideoAudioMediaReplaced } from './domain-events/video-audio-media-replaced';
+import { VideoAudioMediaReplacedEvent } from './domain-events/video-audio-media-replaced.event';
 import { Notification } from '@core/shared/domain/validators/notification';
 
 export type VideoConstructorProps = {
@@ -110,7 +110,7 @@ export class Video extends AggregateRoot {
       this.onVideoCreated.bind(this),
     );
     this.registerHandler(
-      VideoAudioMediaReplaced.name,
+      VideoAudioMediaReplacedEvent.name,
       this.onAudioVideoMediaReplaced.bind(this),
     );
   }
@@ -192,7 +192,7 @@ export class Video extends AggregateRoot {
   replaceTrailer(trailer: Trailer): void {
     this.trailer = trailer;
     this.applyEvent(
-      new VideoAudioMediaReplaced({
+      new VideoAudioMediaReplacedEvent({
         aggregate_id: this.video_id,
         media: trailer,
         media_type: 'trailer',
@@ -203,7 +203,7 @@ export class Video extends AggregateRoot {
   replaceVideo(video: VideoMedia): void {
     this.video = video;
     this.applyEvent(
-      new VideoAudioMediaReplaced({
+      new VideoAudioMediaReplacedEvent({
         aggregate_id: this.video_id,
         media: video,
         media_type: 'video',
@@ -267,7 +267,7 @@ export class Video extends AggregateRoot {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  onAudioVideoMediaReplaced(_event: VideoAudioMediaReplaced) {
+  onAudioVideoMediaReplaced(_event: VideoAudioMediaReplacedEvent) {
     if (this.is_published) {
       return;
     }
