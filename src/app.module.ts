@@ -10,23 +10,21 @@ import { EventModule } from './nest-modules/event-module/event.module';
 import { UseCaseModule } from './nest-modules/use-case-module/use-case.module';
 import { RabbitMQFakeConsumer } from './rabbitmq-fake.consumer';
 import { RabbitmqFakeController } from './rabbitmq-fake/rabbitmq-fake.controller';
-import { RabbitmqModule } from './nest-modules/rabbitmq-module/rabbitmq.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
     SharedModule,
     DatabaseModule,
-    CategoriesModule,
-    CastMembersModule,
     EventModule,
     UseCaseModule,
+    CategoriesModule,
+    CastMembersModule,
     GenresModule,
     VideosModule,
     // RabbitMQModule.forRoot(RabbitMQModule, {
     //   uri: 'amqp://admin:admin@rabbitmq:5672',
     // }),
-    RabbitmqModule.forRoot(),
   ],
   controllers: [RabbitmqFakeController],
   providers: [RabbitMQFakeConsumer],

@@ -1,11 +1,11 @@
 import { ChannelWrapper } from 'amqp-connection-manager';
 import { RabbitMQMessageBroker } from '../rabbitmq-message-broker';
-import { IDomainEvent } from '../../../domain/events/domain-event.interface';
+import { IIntegrationEvent } from '../../../domain/events/domain-event.interface';
 import { Uuid } from '../../../domain/value-objects/uuid.vo';
 import { EVENTS_MESSAGE_BROKER_CONFIG } from '../events-message-broker-config';
 import { ValueObject } from '@core/shared/domain/value-object';
 
-class TestEvent implements IDomainEvent {
+class TestEvent implements IIntegrationEvent {
   occurred_on: Date = new Date();
   aggregate_id: ValueObject;
   event_version: number = 1;

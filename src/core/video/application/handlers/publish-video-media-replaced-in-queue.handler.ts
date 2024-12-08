@@ -9,8 +9,9 @@ export class PublishVideoMediaReplacedInQueueHandler
   constructor(private messageBroker: IMessageBroker) {
     console.log(messageBroker);
   }
+
   @OnEvent(VideoAudioMediaUploadedIntegrationEvent.name)
   async handle(event: VideoAudioMediaUploadedIntegrationEvent) {
-    console.log(event);
+    await this.messageBroker.publishEvent(event);
   }
 }
