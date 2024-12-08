@@ -50,6 +50,15 @@ export const CONFIG_GOOGLE_SCHEMA: Joi.StrictSchemaMap<CONFIG_GOOGLE_SCHEMA_TYPE
     GOOGLE_CLOUD_STORAGE_BUCKET_NAME: Joi.string().required(),
   };
 
+type CONFIG_RABBITMQ_SCHEMA_TYPE = {
+  RABBITMQ_URI: string;
+};
+
+export const CONFIG_RABBITMQ_SCHEMA: Joi.StrictSchemaMap<CONFIG_RABBITMQ_SCHEMA_TYPE> =
+  {
+    RABBITMQ_URI: Joi.string().required(),
+  };
+
 export const CONFIG_DB_SCHEMA: Joi.StrictSchemaMap<DB_SCHEMA_TYPE> = {
   DB_VENDOR: Joi.string().valid('mysql', 'sqlite').required(),
   DB_HOST: Joi.string().required(),
@@ -92,6 +101,7 @@ export class ConfigModule extends NestConfigModule {
       validationSchema,
       ...otherOptions,
       ...CONFIG_GOOGLE_SCHEMA,
+      ...CONFIG_RABBITMQ_SCHEMA,
     });
   }
 }

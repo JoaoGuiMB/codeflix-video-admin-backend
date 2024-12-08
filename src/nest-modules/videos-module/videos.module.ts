@@ -13,7 +13,7 @@ import { ImageMediaModel } from '../../core/video/infra/db/sequelize/image-media
 import { AudioVideoMediaModel } from '../../core/video/infra/db/sequelize/audio-video-media.model';
 import { GenresModule } from '../genres-module/genres.module';
 import { CastMembersModule } from '../cast-members-module/cast-members.module';
-import { SharedModule } from '../shared-module/shared.module';
+import { RabbitmqModule } from '../rabbitmq-module/rabbitmq.module';
 
 @Module({
   imports: [
@@ -25,7 +25,7 @@ import { SharedModule } from '../shared-module/shared.module';
       ImageMediaModel,
       AudioVideoMediaModel,
     ]),
-    SharedModule,
+    RabbitmqModule.forFeature(),
     CategoriesModule,
     GenresModule,
     CastMembersModule,
