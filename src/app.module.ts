@@ -10,6 +10,7 @@ import { EventModule } from './nest-modules/event-module/event.module';
 import { UseCaseModule } from './nest-modules/use-case-module/use-case.module';
 import { RabbitMQFakeConsumer } from './rabbitmq-fake.consumer';
 import { RabbitmqFakeController } from './rabbitmq-fake/rabbitmq-fake.controller';
+import { RabbitmqModule } from './nest-modules/rabbitmq-module/rabbitmq.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { RabbitmqFakeController } from './rabbitmq-fake/rabbitmq-fake.controller
     DatabaseModule,
     EventModule,
     UseCaseModule,
+    RabbitmqModule.forRoot(),
     CategoriesModule,
     CastMembersModule,
     GenresModule,
