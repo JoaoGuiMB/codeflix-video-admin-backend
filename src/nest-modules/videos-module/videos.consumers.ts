@@ -1,10 +1,14 @@
 import { AudioVideoMediaStatus } from '@core/shared/domain/value-objects/audio-video-media.vo';
 import { ProcessAudioVideoMediasInput } from '@core/video/application/use-cases/process-audio-video-medias/process-audio-video-medias.input';
+import { ProcessAudioVideoMediasUseCase } from '@core/video/application/use-cases/process-audio-video-medias/process-audio-video-medias.use-case';
 import { RabbitSubscribe } from '@golevelup/nestjs-rabbitmq';
 import { Injectable, ValidationPipe } from '@nestjs/common';
+import { ModuleRef } from '@nestjs/core';
 
 @Injectable()
 export class VideosConsumers {
+  constructor(private moduleRef: ModuleRef) {}
+
   @RabbitSubscribe({
     exchange: 'amq.direct',
     routingKey: 'video.convert',
@@ -14,7 +18,7 @@ export class VideosConsumers {
   async onProcessVideo(msg: {
     video: {
       resource_id: string;
-      enconded_video_folder: string;
+      encoded_video_folder: string;
       status: 'COMPLETED' | 'FAILED';
     };
   }) {
@@ -23,7 +27,7 @@ export class VideosConsumers {
     const input = new ProcessAudioVideoMediasInput({
       video_id,
       field: field as 'trailer' | 'video',
-      encoded_location: msg.video?.enconded_video_folder,
+      encoded_location: msg.video?.encoded_video_folder,
       status: msg.video?.status as AudioVideoMediaStatus,
     });
     try {
@@ -33,6 +37,12 @@ export class VideosConsumers {
         metatype: ProcessAudioVideoMediasInput,
         type: 'body',
       });
+
+      const useCase = await this.moduleRef.resolve(
+        ProcessAudioVideoMediasUseCase,
+      );
+
+      await useCase.execute(input);
     } catch (e) {
       console.log(e);
     }
