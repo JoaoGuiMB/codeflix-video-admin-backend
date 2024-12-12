@@ -32,21 +32,18 @@ export class VideosConsumers {
       encoded_location: msg.video?.encoded_video_folder,
       status: msg.video?.status as AudioVideoMediaStatus,
     });
-    try {
-      await new ValidationPipe({
-        errorHttpStatusCode: 422,
-      }).transform(input, {
-        metatype: ProcessAudioVideoMediasInput,
-        type: 'body',
-      });
 
-      const useCase = await this.moduleRef.resolve(
-        ProcessAudioVideoMediasUseCase,
-      );
+    await new ValidationPipe({
+      errorHttpStatusCode: 422,
+    }).transform(input, {
+      metatype: ProcessAudioVideoMediasInput,
+      type: 'body',
+    });
 
-      await useCase.execute(input);
-    } catch (e) {
-      console.log(e);
-    }
+    const useCase = await this.moduleRef.resolve(
+      ProcessAudioVideoMediasUseCase,
+    );
+
+    await useCase.execute(input);
   }
 }
