@@ -5,7 +5,7 @@ import { ArgumentsHost, Catch, ExceptionFilter } from '@nestjs/common';
 import { ConsumeMessage, MessagePropertyHeaders } from 'amqplib';
 
 @Catch()
-export class RabbitmqConsumeErrorFilter<T> implements ExceptionFilter {
+export class RabbitmqConsumeErrorFilter implements ExceptionFilter {
   static readonly RETRY_COUNT_HEADER = 'x-retry-count';
   static readonly MAX_RETRIES = 3;
   static readonly NON_RETRYABLE_EXCEPTIONS = [
@@ -15,7 +15,7 @@ export class RabbitmqConsumeErrorFilter<T> implements ExceptionFilter {
 
   constructor(private amqpConnection: AmqpConnection) {}
 
-  async catch(exception: T, host: ArgumentsHost) {
+  async catch(exception: Error, host: ArgumentsHost) {
     if (host.getType<'rmq'>() !== 'rmq') {
       return;
     }
