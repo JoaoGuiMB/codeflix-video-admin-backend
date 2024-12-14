@@ -2,7 +2,7 @@ import request from 'supertest';
 import { ICategoryRepository } from '../../src/core/category/domain/category.repository';
 import * as CategoryProviders from '../../src/nest-modules/categories-module/categories.providers';
 import { startApp } from '../../src/nest-modules/shared-module/testing/helpers';
-import { Category } from '@core/category/domain/category.aggregate';
+import { Category } from '../../src/core/category/domain/category.aggregate';
 
 describe('CategoriesController (e2e)', () => {
   describe('/delete/:id (DELETE)', () => {
@@ -31,6 +31,7 @@ describe('CategoriesController (e2e)', () => {
       test.each(arrange)('when id is $id', async ({ id, expected }) => {
         return request(appHelper.app.getHttpServer())
           .delete(`/categories/${id}`)
+          .authenticate(appHelper.app)
           .expect(expected.statusCode)
           .expect(expected);
       });
@@ -45,6 +46,7 @@ describe('CategoriesController (e2e)', () => {
 
       await request(appHelper.app.getHttpServer())
         .delete(`/categories/${category.category_id.id}`)
+        .authenticate(appHelper.app)
         .expect(204);
 
       await expect(

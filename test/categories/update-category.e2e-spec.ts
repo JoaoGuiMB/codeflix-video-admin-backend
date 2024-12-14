@@ -3,11 +3,11 @@ import { instanceToPlain } from 'class-transformer';
 import { ICategoryRepository } from '../../src/core/category/domain/category.repository';
 import * as CategoryProviders from '../../src/nest-modules/categories-module/categories.providers';
 import { CategoryOutputMapper } from '../../src/core/category/application/use-cases/common/category-output';
+import { Uuid } from '../../src/core/shared/domain/value-objects/uuid.vo';
 import { startApp } from '../../src/nest-modules/shared-module/testing/helpers';
 import { CategoriesController } from '../../src/nest-modules/categories-module/categories.controller';
-
+import { Category } from '../../src/core/category/domain/category.aggregate';
 import { UpdateCategoryFixture } from '../../src/nest-modules/categories-module/testing/category-fixture';
-import { Category, CategoryId } from '@core/category/domain/category.aggregate';
 
 describe('CategoriesController (e2e)', () => {
   const uuid = '9366b7dc-2d71-4799-b91c-c64adb205104';
@@ -43,6 +43,7 @@ describe('CategoriesController (e2e)', () => {
         async ({ id, send_data, expected }) => {
           return request(nestApp.app.getHttpServer())
             .patch(`/categories/${id}`)
+            .authenticate(nestApp.app)
             .send(send_data)
             .expect(expected.statusCode)
             .expect(expected);
@@ -60,6 +61,7 @@ describe('CategoriesController (e2e)', () => {
       test.each(arrange)('when body is $label', ({ value }) => {
         return request(app.app.getHttpServer())
           .patch(`/categories/${uuid}`)
+          .authenticate(app.app)
           .send(value.send_data)
           .expect(422)
           .expect(value.expected);
@@ -86,6 +88,7 @@ describe('CategoriesController (e2e)', () => {
         await categoryRepo.insert(category);
         return request(app.app.getHttpServer())
           .patch(`/categories/${category.category_id.id}`)
+          .authenticate(app.app)
           .send(value.send_data)
           .expect(422)
           .expect(value.expected);
@@ -110,15 +113,14 @@ describe('CategoriesController (e2e)', () => {
 
           const res = await request(appHelper.app.getHttpServer())
             .patch(`/categories/${categoryCreated.category_id.id}`)
+            .authenticate(appHelper.app)
             .send(send_data)
             .expect(200);
           const keyInResponse = UpdateCategoryFixture.keysInResponse;
           expect(Object.keys(res.body)).toStrictEqual(['data']);
           expect(Object.keys(res.body.data)).toStrictEqual(keyInResponse);
           const id = res.body.data.id;
-          const categoryUpdated = await categoryRepo.findById(
-            new CategoryId(id),
-          );
+          const categoryUpdated = await categoryRepo.findById(new Uuid(id));
           const presenter = CategoriesController.serialize(
             CategoryOutputMapper.toOutput(categoryUpdated!),
           );
