@@ -61,6 +61,16 @@ export const CONFIG_RABBITMQ_SCHEMA: Joi.StrictSchemaMap<CONFIG_RABBITMQ_SCHEMA_
     RABBITMQ_REGISTER_HANDLERS: Joi.boolean().required(),
   };
 
+type CONFIG_JWT_SCHEMA_TYPE = {
+  JWT_PRIVATE_KEY: string;
+  JWT_PUBLIC_KEY: string;
+};
+
+export const CONFIG_JWT_SCHEMA: Joi.StrictSchemaMap<CONFIG_JWT_SCHEMA_TYPE> = {
+  JWT_PRIVATE_KEY: Joi.string().required(),
+  JWT_PUBLIC_KEY: Joi.string().optional(),
+};
+
 export const CONFIG_DB_SCHEMA: Joi.StrictSchemaMap<DB_SCHEMA_TYPE> = {
   DB_VENDOR: Joi.string().valid('mysql', 'sqlite').required(),
   DB_HOST: Joi.string().required(),
@@ -104,6 +114,7 @@ export class ConfigModule extends NestConfigModule {
       ...otherOptions,
       ...CONFIG_GOOGLE_SCHEMA,
       ...CONFIG_RABBITMQ_SCHEMA,
+      ...CONFIG_JWT_SCHEMA,
     });
   }
 }
