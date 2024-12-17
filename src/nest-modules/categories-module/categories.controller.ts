@@ -54,7 +54,9 @@ export class CategoriesController {
 
   @Get()
   async search(@Query() searchParamsDto: SearchCategoriesDto) {
+    console.log('[fullcycle:init] xpto');
     const output = await this.listUseCase.execute(searchParamsDto);
+    console.log('[fullcycle:finish] xpto');
     return new CategoryCollectionPresenter(output);
   }
 
