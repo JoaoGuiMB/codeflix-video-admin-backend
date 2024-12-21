@@ -9,6 +9,7 @@
 dist/
 coverage/
 envs/
+.history/
 node_modules/
 *.sqlite
 docker-compose.yml
