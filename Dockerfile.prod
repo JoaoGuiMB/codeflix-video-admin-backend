@@ -44,5 +44,7 @@ COPY --chown=node:node --from=builder /home/node/app/package.json ./
 
 EXPOSE 3000
 
-CMD ["node", "dist/main.js"]
+ENV NODE_ENV production
+
+CMD ["npm", "run", "start:prod"]
 
