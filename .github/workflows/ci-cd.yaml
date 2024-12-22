@@ -93,7 +93,7 @@ jobs:
         run: docker compose -f docker-compose.ci.yaml exec -T app npm run test
 
       - name: run e2e tests
-        run: docker compose -f docker-compose.ci.yaml exec -T app npm run test:e2e -- --runInBand --detectOpenHandles --forceExit
+        run: docker compose -f docker-compose.ci.yaml exec -u root -T app npm run test:e2e -- --runInBand --detectOpenHandles --forceExit
 
       # Sign the resulting Docker image digest except on PRs.
       # This will only write to the public Rekor transparency log when the Docker
