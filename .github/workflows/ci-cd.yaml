@@ -75,11 +75,11 @@ jobs:
           file: Dockerfile.prod
           target: development
 
-        - name: up containers
-          run: docker compose -f docker-compose.ci.yaml up -d
+      - name: up containers
+        run: docker compose -f docker-compose.ci.yaml up -d
 
-        - name: wait for mysql
-          run: docker compose -f docker-compose.ci.yaml exec -T db mysqladmin ping --silent --wait -uroot -proot
+      - name: wait for mysql
+        run: docker compose -f docker-compose.ci.yaml exec -T db mysqladmin ping --silent --wait -uroot -proot
 
       # Sign the resulting Docker image digest except on PRs.
       # This will only write to the public Rekor transparency log when the Docker
