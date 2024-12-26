@@ -23,6 +23,7 @@ import { GetVideoUseCase } from '../../core/video/application/use-cases/get-vide
 import { ProcessAudioVideoMediasUseCase } from '../../core/video/application/use-cases/process-audio-video-medias/process-audio-video-medias.use-case';
 import { PublishVideoMediaReplacedInQueueHandler } from '@core/video/application/handlers/publish-video-media-replaced-in-queue.handler';
 import { IMessageBroker } from '@core/shared/application/message-broker.interface';
+import { DeleteVideoUseCase } from '@core/video/application/use-cases/delete-video/delete-video.usecase';
 
 export const REPOSITORIES = {
   VIDEO_REPOSITORY: {
@@ -142,6 +143,13 @@ export const USE_CASES = {
       return new ProcessAudioVideoMediasUseCase(uow, videoRepo);
     },
     inject: ['UnitOfWork', REPOSITORIES.VIDEO_REPOSITORY.provide],
+  },
+  DELETE_VIDEO_USE_CASE: {
+    provide: DeleteVideoUseCase,
+    useFactory: (videoRepo: IVideoRepository) => {
+      return new DeleteVideoUseCase(videoRepo);
+    },
+    inject: [REPOSITORIES.VIDEO_REPOSITORY.provide],
   },
 };
 

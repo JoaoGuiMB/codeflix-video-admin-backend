@@ -11,6 +11,8 @@ import {
   ValidationPipe,
   UseInterceptors,
   BadRequestException,
+  Delete,
+  HttpCode,
 } from '@nestjs/common';
 import { CreateVideoUseCase } from '../../core/video/application/use-cases/create-video/create-video.use-case';
 import { UpdateVideoUseCase } from '../../core/video/application/use-cases/update-video/update-video.use-case';
@@ -21,6 +23,7 @@ import { UpdateVideoDto } from './dto/update-video.dto';
 import { UpdateVideoInput } from '../../core/video/application/use-cases/update-video/update-video.input';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { UploadAudioVideoMediaInput } from '../../core/video/application/use-cases/upload-audio-video-medias/upload-audio-video-media.input';
+import { DeleteVideoUseCase } from '@core/video/application/use-cases/delete-video/delete-video.usecase';
 
 @Controller('videos')
 export class VideosController {
@@ -35,6 +38,9 @@ export class VideosController {
 
   @Inject(GetVideoUseCase)
   private getUseCase: GetVideoUseCase;
+
+  @Inject(DeleteVideoUseCase)
+  private deleteUseCase: DeleteVideoUseCase;
 
   @Post()
   async create(@Body() createVideoDto: CreateVideoDto) {
@@ -183,5 +189,13 @@ export class VideosController {
       //use case upload image media
     }
     return await this.getUseCase.execute({ id });
+  }
+
+  @HttpCode(204)
+  @Delete(':id')
+  delete(
+    @Param('id', new ParseUUIDPipe({ errorHttpStatusCode: 422 })) id: string,
+  ) {
+    return this.deleteUseCase.execute({ id });
   }
 }
