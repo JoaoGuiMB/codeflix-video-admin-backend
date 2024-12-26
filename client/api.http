@@ -112,6 +112,11 @@ Content-Type: application/json
 
 ###
 
+# @name deleteVideo
+DELETE http://localhost:3000/videos/{{videoId}}
+
+###
+
 ###
 # @name uploadVideo
 PATCH http://localhost:3000/videos/{{videoId}}
@@ -160,8 +165,7 @@ Content-Type: application/json
 
 ###
 
-@jwtToken = eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsiYWRtaW4tY2F0YWxvZyJdfSwiaWF0IjoxNzM0NzkwNDkwLCJleHAiOjE3MzQ4NzY4OTB9.PfV32cmpV_lITEaazMlgGWiXcExvL4PdbutJRDhGP63SF5nLLTpav-1dwPTHDdGRvK_RSzVbNn6fNYIlWs0syhBwgyWKjiMHb2KALoW8MovAHgyOEu9YiAnqZsnxVhsKwHpB1iuAeSv1n3KGrIe_aYClWYQI7Fd316Gt7lLG91CS_ay9evWrlLm5tUY21EWisTJ5oBNRarkd86QSr0-O6Iy7_oqtleBNGHnVuG4u7hP4CQVCbE4JnMQ5s6x30zEtApNuAIcBhq66NPVIG6jYUGLujwlkGNCIp8o1taqtnFneh9WLHfy-JzW-7pIamg2OcOiVCw4m7VLy9GggHmxAkg
-
+@jwtToken = eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsiYWRtaW4tY2F0YWxvZyJdfSwiaWF0IjoxNzM1MjQwOTg3LCJleHAiOjE3MzUzMjczODd9.W14yI5kbcdL59GhKf_t_UaTY9zD9GyUgiJIrJCMI96-_Md5ovNRezGkHnZvvzOxuM52BCLjksucvXu8ocMOaZ29bn75fCq7esisV483ZTbaxZmHEntbPF3Tf819wcAQH9OWDkcmN6EY_7C17JzjgVPtBNoXyOJ5LzcQG-2WERkjxA76RKLgaaFsBFRudJVbjHNsUqHSdBAvBTqzS1gade9rRHZbyLs-KOHZfe-2lb8amv0V0yigA9iLn-s9QyRKBBh4k5wmfViceyMl1aVNjXfUIZtJEUmUYXbWqPbk4xCPTslOTOZtUbBs62t0bb2MbgEsEdSNJQ1TLLqXaRwoI2Q
 ###
 GET http://localhost:3000/auth
 Content-Type: application/json
