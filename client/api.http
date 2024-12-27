@@ -61,7 +61,7 @@ POST http://localhost:3000/videos
 Content-Type: application/json
 
 {
-    "title": "Video 1",
+    "title": "Video",
     "description": "Description 1",
     "year_launched": 2020,
     "is_opened": false,
@@ -116,6 +116,12 @@ Content-Type: application/json
 DELETE http://localhost:3000/videos/{{videoId}}
 
 ###
+
+
+# @name searchVideos
+
+GET http://localhost:3000/videos?page=1&per_page=10&sort=created_at&sort_dir=asc&title=Video&genres_id=asd
+Authorization: Bearer {{jwtToken}}
 
 ###
 # @name uploadVideo
