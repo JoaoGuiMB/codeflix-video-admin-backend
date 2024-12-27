@@ -13,6 +13,7 @@ import {
   BadRequestException,
   Delete,
   HttpCode,
+  Query,
 } from '@nestjs/common';
 import { CreateVideoUseCase } from '../../core/video/application/use-cases/create-video/create-video.use-case';
 import { UpdateVideoUseCase } from '../../core/video/application/use-cases/update-video/update-video.use-case';
@@ -24,6 +25,11 @@ import { UpdateVideoInput } from '../../core/video/application/use-cases/update-
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { UploadAudioVideoMediaInput } from '../../core/video/application/use-cases/upload-audio-video-medias/upload-audio-video-media.input';
 import { DeleteVideoUseCase } from '@core/video/application/use-cases/delete-video/delete-video.usecase';
+import { ListVideosUseCase } from '@core/video/application/use-cases/search-videos/search-videos.usecase';
+import { ListVideosDTO } from './dto/list-video.dto';
+import { CategoryId } from '@core/category/domain/category.aggregate';
+import { GenreId } from '@core/genre/domain/genre.aggregate';
+import { CastMemberId } from '@core/cast-member/domain/cast-member.aggregate';
 
 @Controller('videos')
 export class VideosController {
@@ -41,6 +47,9 @@ export class VideosController {
 
   @Inject(DeleteVideoUseCase)
   private deleteUseCase: DeleteVideoUseCase;
+
+  @Inject(ListVideosUseCase)
+  private listUseCase: ListVideosUseCase;
 
   @Post()
   async create(@Body() createVideoDto: CreateVideoDto) {
@@ -197,5 +206,29 @@ export class VideosController {
     @Param('id', new ParseUUIDPipe({ errorHttpStatusCode: 422 })) id: string,
   ) {
     return this.deleteUseCase.execute({ id });
+  }
+
+  @Get()
+  async search(@Query() searchParamsDto: ListVideosDTO) {
+    const filter = {
+      title: searchParamsDto.title,
+      categories_id: searchParamsDto.categories_id?.map(
+        (i) => new CategoryId(i),
+      ),
+      genres_id: searchParamsDto.genres_id?.map((i) => new GenreId(i)),
+      cast_members_id: searchParamsDto.cast_members_id?.map(
+        (i) => new CastMemberId(i),
+      ),
+    };
+
+    console.log('[fullcycle:init] xpto');
+    const output = await this.listUseCase.execute({
+      ...searchParamsDto,
+      filter,
+    });
+    console.log('[fullcycle:finish] xpto');
+    return {
+      data: output,
+    };
   }
 }
